@@ -1,0 +1,74 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import WS from '@utils/ws';
+import { getUser } from '@utils/auth';
+import logger from '@utils/logger';
+
+export const api = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({
+    // baseUrl: process.env.REACT_APP_API_URL
+    baseUrl: 'ws://localhost:3001/',
+  }),
+  endpoints: builder => ({
+    getMessages: builder.query<any[], void>({
+      query: () => 'hardwareMonitor',
+      async onCacheEntryAdded(
+        photoId,
+        { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+      ) {
+        try {
+          await cacheDataLoaded;
+          // the /chat-messages endpoint responded already
+
+          // const ws = new WS();
+          // await ws.join('ws://localhost:3001/hardwareMonitor', getUser().token);
+          // ws.addPollingFn(() => {
+          //   return json => {
+          //     logger.info(json);
+          //     // updateCachedData(draft => {
+          //     //   draft.push(json);
+          //     // });
+          //   };
+          // });
+
+          // const socket = io(process.env.REACT_APP_API_URL, {
+          //   withCredentials: true,
+          // });
+
+          // socket.on(ChatEvent.ReceiveMessage, (message: any) => {
+          //   updateCachedData(draft => {
+          //     draft.push(message);
+          //   });
+          // });
+
+          const socket = new Socket();
+          socket.connect('wss://my-websocket-url');
+
+          socket.on('open', event => {
+            console.log('You say hello...');
+          });
+
+          socket.on('message', event => {
+            console.log('Incoming message: ', event.data);
+          });
+
+          socket.on('close', event => {
+            console.log('...and I say goodbye!');
+          });
+
+          socket.send('A message');
+          socket.disconnect();
+
+          await cacheEntryRemoved;
+        } catch {
+          // if cacheEntryRemoved resolved before cacheDataLoaded,
+          // cacheDataLoaded throws
+        }
+      },
+    }),
+  }),
+});
+
+// Export hooks for usage in functional components
+export const { useGetPokemonByNameQuery } = api;

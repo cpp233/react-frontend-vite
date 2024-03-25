@@ -1,0 +1,14 @@
+.register-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.register-layout .register-card-form{
+  min-width: 300px;
+  width: 500px;
+  max-width: 500px;
+}

@@ -1,0 +1,28 @@
+import React from 'react';
+import type { MenuProps } from 'antd';
+
+import MenuComponent from '@components/layout/MenuComponent';
+
+const navItemList: MenuProps['items'] = [
+  {
+    key: '',
+    label: `首页`,
+  },
+  {
+    key: 'nav2',
+    label: `不要点我`,
+  },
+];
+
+function NavMenuComponent() {
+  return (
+    <MenuComponent
+      theme='dark'
+      mode='horizontal'
+      defaultSelectedKeys={['nav1']}
+      items={navItemList}
+    ></MenuComponent>
+  );
+}
+
+export default NavMenuComponent;

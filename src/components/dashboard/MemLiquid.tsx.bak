@@ -1,0 +1,40 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Liquid, type LiquidConfig } from '@ant-design/plots';
+
+import { useAppSelector, useAppDispatch } from '@hooks/reduxHook';
+import logger from '@utils/logger';
+
+function MemLiquid() {
+  const { memoryUse } = useAppSelector(state => {
+    const { memoryUse } = state.serverLoad;
+
+    return {
+      memoryUse:
+        memoryUse.use.value / (memoryUse.idle.value + memoryUse.use.value),
+    };
+  });
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    ref?.current?.getChart().changeData(memoryUse);
+    // ref?.current?.getChart().update({ ...config, data: cpuUse });
+    logger.info(ref?.current?.getChart());
+  }, [memoryUse]);
+
+  logger.info(memoryUse);
+
+  const config: LiquidConfig = {
+    percent: 0.5,
+    outline: {
+      border: 4,
+      distance: 8,
+    },
+    wave: {
+      length: 128,
+    },
+  };
+  return <Liquid {...config} ref={ref} />;
+}
+
+export default MemLiquid;

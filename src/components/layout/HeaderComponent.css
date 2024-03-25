@@ -1,0 +1,8 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header .user:hover{
+  background: #252a3d;
+}
