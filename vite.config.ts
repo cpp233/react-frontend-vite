@@ -17,7 +17,11 @@ import pluginCDNReplace from './vite-plugins/vite-plugin-CDN-replace';
 
 const rootDir = process.cwd();
 
-// console.log(pluginCDN, process.env.NODE_ENV);
+// console.log(
+//   pluginCDN,
+//   process.env.NODE_ENV,
+//   path.join(rootDir, '/build_cache')
+// );
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -204,7 +208,10 @@ export default defineConfig({
     react(),
     pluginDnsPrefetch(),
     pluginVisualizer({
+      // filename: 'stats.{ext depending template}',
       open: true,
+      emitFile: false,
+      // projectRoot: path.join(rootDir, '/build_cache'),
     }),
     pluginViteRestart({
       restart: ['vite.config.[jt]s'],
